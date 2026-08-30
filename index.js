@@ -15,14 +15,17 @@ const app = express();
 
 app.use(morgan('dev'));
 
-app.use(express.json());
 app.set('trust proxy', 1);
 app.use(
   cors({
-    origin: 'https://sheikh-eraki.vercel.app',
+    origin:
+      process.env.IS_PRODUCTION === 'true'
+        ? 'https://sheikh-eraki.vercel.app'
+        : 'http://localhost:3000',
     credentials: true,
   }),
 );
+app.use(express.json());
 
 app.use('/users', users);
 app.use('/admin', admin);
@@ -39,13 +42,5 @@ app.listen(port, '0.0.0.0', () =>
   console.log('Server is running on port ' + port),
 );
 
-fetch('https://example.com')
-  .then(() => console.log('✅ Outbound HTTPS works'))
-  .catch((err) => console.error('❌ Outbound HTTPS failed:', err.message));
-
-await connectDB()
-  .then(() => console.log('MongoDB Connected'))
-  .catch((err) => console.log('MongoDB Connection Error', err.message));
-await connectCache()
-  .then(() => console.log('Redis Connected'))
-  .catch((err) => console.log('Redis Connection Error', err.message));
+await connectDB();
+await connectCache();
