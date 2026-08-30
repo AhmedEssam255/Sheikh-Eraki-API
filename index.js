@@ -16,6 +16,7 @@ const app = express();
 app.use(morgan('dev'));
 
 app.use(express.json());
+app.set('trust proxy', 1);
 app.use(
   cors({
     origin: 'https://sheikh-eraki.vercel.app',
