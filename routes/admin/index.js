@@ -26,7 +26,7 @@ admin.use(
     cookie: {
       httpOnly: true,
       secure: process.env.IS_PRODUCTION === 'true' ? true : false,
-      sameSite: 'lax',
+      sameSite: 'none',
       maxAge: 1000 * 60 * 60 * 24,
       path: '/',
     },
