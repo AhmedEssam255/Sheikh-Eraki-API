@@ -16,7 +16,12 @@ const app = express();
 app.use(morgan('dev'));
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: 'https://sheikh-eraki.vercel.app',
+    credentials: true,
+  }),
+);
 
 app.use('/users', users);
 app.use('/admin', admin);
