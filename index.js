@@ -20,6 +20,10 @@ app.use(
   cors({
     origin: 'http://localhost:3000',
     credentials: true,
+  },
+  {
+    origin: 'https://sheikh-eraki.vercel.app',
+    credentials: true,
   }),
 );
 
