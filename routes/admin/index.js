@@ -23,6 +23,7 @@ admin.use(
     resave: false,
     saveUninitialized: false,
     store: redisStore,
+    proxy: true,
     cookie: {
       httpOnly: true,
       secure: process.env.IS_PRODUCTION === 'true',
