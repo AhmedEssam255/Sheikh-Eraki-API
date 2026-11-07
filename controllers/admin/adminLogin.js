@@ -33,6 +33,18 @@ const login = async (req, res) => {
       });
     });
 
+    res.on('finish', () => {
+  console.log('FINAL RESPONSE DIAGNOSTICS:', {
+    setCookie: res.getHeader('Set-Cookie'),
+    secure: req.secure,
+    protocol: req.protocol,
+    forwardedProto: req.get('x-forwarded-proto'),
+    sessionID: req.sessionID,
+    cookieSecure: req.session.cookie.secure,
+    isLoggedIn: req.session.isLoggedIn,
+  });
+});
+
     return res.status(200).json({
       message: 'Login successful',
       isLoggedIn: true,
