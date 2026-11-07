@@ -40,14 +40,6 @@ app.use(notFound);
 await connectDB();
 await connectCache();
 
-app.use((req, res) => {
-console.log('PROXY HEADERS:', {
-  host: req.get('host'),
-  forwardedProto: req.get('x-forwarded-proto'),
-  forwardedHost: req.get('x-forwarded-host'),
-  forwardedFor: req.get('x-forwarded-for'),
-})
-);
 const port = process.env.PORT || 2010;
 app.listen(port, '0.0.0.0', () =>
   console.log('Server is running on port ' + port),
