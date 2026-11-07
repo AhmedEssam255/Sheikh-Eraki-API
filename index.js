@@ -37,10 +37,10 @@ app.get('/', (req, res) => {
 app.use(errorHandler);
 app.use(notFound);
 
+await connectDB();
+await connectCache();
+
 const port = process.env.PORT || 2010;
 app.listen(port, '0.0.0.0', () =>
   console.log('Server is running on port ' + port),
 );
-
-await connectDB();
-await connectCache();
