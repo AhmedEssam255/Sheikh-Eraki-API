@@ -16,6 +16,28 @@ const app = express();
 app.use(morgan('dev'));
 
 app.set('trust proxy', 1);
+
+app.use((req, res, next) => {
+  console.log('========== PROXY DIAGNOSTICS ==========');
+
+  console.log({
+    host: req.get('host'),
+    forwardedProto: req.get('x-forwarded-proto'),
+    forwardedHost: req.get('x-forwarded-host'),
+    forwardedFor: req.get('x-forwarded-for'),
+
+    protocol: req.protocol,
+    secure: req.secure,
+
+    originalUrl: req.originalUrl,
+    remoteAddress: req.socket.remoteAddress,
+  });
+
+  console.log('=======================================');
+
+  next();
+});
+
 app.use(
   cors({
     origin:
