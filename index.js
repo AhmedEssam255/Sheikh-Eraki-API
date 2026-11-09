@@ -15,25 +15,22 @@ const app = express();
 
 app.use(morgan('dev'));
 
-app.set('trust proxy', 1);
+const TRUSTED_PROXY_IP = '10.90.53.1';
+
+app.set('trust proxy', (ip) => {
+  return ip === TRUSTED_PROXY_IP;
+});
 
 app.use((req, res, next) => {
-  console.log('========== PROXY DIAGNOSTICS ==========');
+  const host = req.get('host')?.split(':')[0].toLowerCase();
+  const proxyIP = req.socket.remoteAddress?.replace(/^::ffff:/, '');
 
-  console.log({
-    host: req.get('host'),
-    forwardedProto: req.get('x-forwarded-proto'),
-    forwardedHost: req.get('x-forwarded-host'),
-    forwardedFor: req.get('x-forwarded-for'),
-
-    protocol: req.protocol,
-    secure: req.secure,
-
-    originalUrl: req.originalUrl,
-    remoteAddress: req.socket.remoteAddress,
-  });
-
-  console.log('=======================================');
+  if (
+    host === 'sheikh-eraki.de.deplexo.com' &&
+    proxyIP === TRUSTED_PROXY_IP
+  ) {
+    req.headers['x-forwarded-proto'] = 'https';
+  }
 
   next();
 });
